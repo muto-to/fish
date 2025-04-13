@@ -156,22 +156,24 @@
     }
 
     function startReveal() {
-      const cards = document.querySelectorAll(".fish-card");
-      const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1 + Math.floor(Math.random() * 2)));
+  const cards = document.querySelectorAll(".fish-card");
 
-      cards.forEach((card, i) => {
-        const delay = 600 * i;
-        setTimeout(() => {
-          card.classList.add("reveal", "glow");
-          const numberElem = card.querySelector(".number");
-          numberElem.textContent = numbers[i];
-          numberElem.classList.add("pop");
-          setTimeout(() => numberElem.classList.remove("pop"), 400);
-          audio.currentTime = 0;
-          audio.play().catch(e => console.log("Autoplay prevented"));
-        }, delay);
-      });
-    }
+  // カード枚数分のユニークな番号を生成（例: 1〜7）
+  const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1));
+
+  cards.forEach((card, i) => {
+    const delay = 600 * i;
+    setTimeout(() => {
+      card.classList.add("reveal", "glow");
+      const numberElem = card.querySelector(".number");
+      numberElem.textContent = numbers[i];
+      numberElem.classList.add("pop");
+      setTimeout(() => numberElem.classList.remove("pop"), 400);
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log("Autoplay prevented"));
+    }, delay);
+  });
+}
 
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {

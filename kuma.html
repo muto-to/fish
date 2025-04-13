@@ -158,8 +158,9 @@
     function startReveal() {
   const cards = document.querySelectorAll(".fish-card");
 
-  // カード枚数分のユニークな番号を生成（例: 1〜7）
-  const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1));
+  // 1〜9 の配列からランダムに8つ選ぶ（重複なし）
+  const pool = shuffle([...Array(9)].map((_, i) => i + 1)); // → [1,2,...,9]
+  const numbers = pool.slice(0, cards.length); // → カード枚数分（8つ）だけ取り出す
 
   cards.forEach((card, i) => {
     const delay = 600 * i;

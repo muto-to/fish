@@ -86,29 +86,41 @@
 
   <!-- Cute Roulette Sound -->
   <audio id="sound" preload="auto">
-  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
-  Your browser does not support the audio element.
-</audio>
+    <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
-    const fishNames = [
-      "Regal Bass", "Floral", "Round", "Meadow",
-      "Rusty", "Broad", "River", "Boots"
+    const fishCards = [
+      { name: "Regal Bass", image: "alice/fish_00.png", use: true },
+      { name: "Floral", image: "alice/fish_01.png", use: true },
+      { name: "Round", image: "alice/fish_02.png", use: true },
+      { name: "Meadow", image: "alice/fish_03.png", use: true },
+      { name: "Rusty", image: "alice/fish_04.png", use: true },
+      { name: "Broad", image: "alice/fish_05.png", use: true },
+      { name: "River", image: "alice/fish_06.png", use: true },
+      { name: "Boots", image: "alice/fish_07.png", use: true },
+      { name: "Tire", image: "alice/fish_08.png", use: false },
+      { name: "Codcape", image: "alice/fish_09.png", use: false },
+      { name: "Luna Tuna", image: "alice/fish_10.png", use: false },
+      { name: "Passage Perch", image: "alice/fish_11.png", use: false },
+      { name: "Salty Eel", image: "alice/fish_12.png", use: false },
+      { name: "Timber Trout", image: "alice/fish_13.png", use: false },
+      { name: "Gloomy Guppy", image: "alice/fish_14.png", use: false }
     ];
-
-    const imagePaths = Array.from({length: 8}, (_, i) => `alice/fish_${i.toString().padStart(2, '0')}.png`);
 
     const container = document.getElementById("fish-container");
     const audio = document.getElementById("sound");
 
     function renderInitial() {
       container.innerHTML = "";
-      fishNames.forEach((name, i) => {
+      const selected = fishCards.filter(card => card.use);
+      selected.forEach(cardData => {
         const card = document.createElement("div");
         card.className = "fish-card";
         card.innerHTML = `
-          <img src="${imagePaths[i]}" alt="fish icon">
-          <div>${name}</div>
+          <img src="${cardData.image}" alt="fish icon">
+          <div>${cardData.name}</div>
           <div class="number">?</div>
         `;
         container.appendChild(card);

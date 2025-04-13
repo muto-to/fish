@@ -28,45 +28,18 @@
       gap: 1.5rem;
       margin-top: 2rem;
     }
-    .fish-card {
-  width: 160px;
-  height: 200px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 11px;
-  padding-bottom: 8px;
-  overflow: hidden; /* ← 角丸内に収めるポイント */
-  font-size: 0.95rem;
-  opacity: 0;
-  transform: scale(0.8) rotateY(0deg);
-  transition: all 0.6s ease;
-}
-    
+    .fish-card {$1
+  padding-bottom: 20px;
     .fish-card.reveal {
       opacity: 1;
       transform: scale(1) rotateY(360deg);
     }
     .fish-card img {
-    width: 137px;
-    height: 137px;
-    margin-top: 10px; /* ← ここを追加 */
+      width: 137px;
+      height: 137px;
     }
-    .number {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #ff4081;
-      background: #fff0f5;
-      padding: 0.4rem 1.2rem;
-      border-radius: 20px;
-      margin-top: 0.4rem;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-      font-family: 'Comic Sans MS', cursive;
-    }
+    .number {$1
+  margin-bottom: 0.2rem;
     button {
       padding: 0.8rem 1.4rem;
       margin-top: 1rem;
@@ -116,6 +89,7 @@
     Your browser does not support the audio element.
   </audio>
 
+
   <script>
     const fishCards = [
       { name: "Floral Flounder", image: "alice/fish_00.png", use: true },
@@ -156,7 +130,7 @@
 
     function startReveal() {
       const cards = document.querySelectorAll(".fish-card");
-      const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1 + Math.floor(Math.random() * 2)));
+      const numbers = shuffle([...Array(cards.length)].map(() => Math.floor(Math.random() * 21) - 10));
 
       cards.forEach((card, i) => {
         const delay = 600 * i;

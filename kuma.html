@@ -28,20 +28,8 @@
       gap: 1.5rem;
       margin-top: 2rem;
     }
-    .fish-card {
-      padding-bottom: 20px;
-      width: 160px;
-      height: 200px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.6s ease, opacity 0.6s ease;
-      opacity: 0.6;
-    }
+    .fish-card {$1
+  padding-bottom: 20px;
     .fish-card.reveal {
       opacity: 1;
       transform: scale(1) rotateY(360deg);
@@ -51,26 +39,21 @@
       height: 137px;
     }
     .number {
-      margin-bottom: 0.2rem;
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-    button {
-      padding: 0.8rem 1.4rem;
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 10px;
-      background-color: #0077cc;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ff4081;
+  background: #fff0f5;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  margin-top: 0.4rem;
+  margin-bottom: 0.2rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  font-family: 'Comic Sans MS', cursive;
+}
     button:hover {
       background-color: #005fa3;
     }
-
-    @keyframes bounce {
+      @keyframes bounce {
       0% { transform: scale(1); }
       30% { transform: scale(1.25); }
       60% { transform: scale(0.95); }
@@ -90,7 +73,7 @@
     .number.pop {
       animation: bounce 0.4s ease;
     }
-  </style>
+</style>
 </head>
 <body>
   <img id="logo" src="alice/alice_mutoto.png" alt="My Neighbor MUTOTO logo">

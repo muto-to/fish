@@ -29,27 +29,31 @@
       margin-top: 2rem;
     }
     .fish-card {
-      width: 160px;
-      height: 200px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-size: 0.95rem;
-      opacity: 0;
-      transform: scale(0.8) rotateY(0deg);
-      transition: all 0.6s ease;
+    width: 160px;
+    height: 200px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    overflow: hidden; /* ← 角丸内に収めるポイント */
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: scale(0.8) rotateY(0deg);
+    transition: all 0.6s ease;
     }
     .fish-card.reveal {
       opacity: 1;
       transform: scale(1) rotateY(360deg);
     }
     .fish-card img {
-      width: 137px;
-      height: 137px;
+    width: 137px;
+    height: 137px;
+    margin-top: 10px; /* ← ここを追加 */
     }
     .number {
       font-size: 1.8rem;
@@ -116,15 +120,15 @@
       { name: "Floral Flounder", image: "alice/fish_00.png", use: true },
       { name: "Rusty Sunfish", image: "alice/fish_01.png", use: true },
       { name: "Broad Barsch", image: "alice/fish_02.png", use: true },
-      { name: "Jellyblossom Fish", image: "alice/fish_03.png", use: true },
-      { name: "Codcape", image: "alice/fish_04.png", use: true },
-      { name: "Passage Perch", image: "alice/fish_05.png", use: true },
+      { name: "Jellyblossom Fish", image: "alice/fish_03.png", use: false },
+      { name: "Codcape", image: "alice/fish_04.png", use: false },
+      { name: "Passage Perch", image: "alice/fish_05.png", use: false },
       { name: "Meadow Mahi", image: "alice/fish_06.png", use: true },
-      { name: "Luna Tuna", image: "alice/fish_07.png", use: true },
+      { name: "Luna Tuna", image: "alice/fish_07.png", use: false },
       { name: "Regal Bass", image: "alice/fish_08.png", use: true },
-      { name: "Salty Eel", image: "alice/fish_09.png", use: true },
-      { name: "Gloomy Guppy", image: "alice/fish_10.png", use: true },
-      { name: "Timber Trout", image: "alice/fish_11.png", use: true },
+      { name: "Salty Eel", image: "alice/fish_09.png", use: false },
+      { name: "Gloomy Guppy", image: "alice/fish_10.png", use: false },
+      { name: "Timber Trout", image: "alice/fish_11.png", use: false },
       { name: "River Asp", image: "alice/fish_12.png", use: true },
       { name: "Roundpuff Fish", image: "alice/fish_13.png", use: true },
       { name: "Boots", image: "alice/fish_14.png", use: true },
@@ -151,7 +155,7 @@
 
     function startReveal() {
       const cards = document.querySelectorAll(".fish-card");
-      const numbers = shuffle([...Array(cards.length)].map(() => Math.floor(Math.random() * 21) - 10));
+      const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1 + Math.floor(Math.random() * 2)));
 
       cards.forEach((card, i) => {
         const delay = 600 * i;

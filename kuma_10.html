@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fish Bingo Roulette</title>
+  <style>
+    body {
+      background: #f0f8ff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    #logo {
+      width: 300px;
+      margin-bottom: 1rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .fish-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .fish-card {
+      padding-bottom: 20px;
+      width: 160px;
+      height: 200px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      opacity: 0.6;
+    }
+    .fish-card.reveal {
+      opacity: 1;
+      transform: scale(1) rotateY(360deg);
+    }
+    .fish-card img {
+      width: 137px;
+      height: 137px;
+    }
+    .number {
+      margin-bottom: 0.2rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    button {
+      padding: 0.8rem 1.4rem;
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #0077cc;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.25); }
+      60% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 0px rgba(255, 200, 0, 0.0); }
+      50% { box-shadow: 0 0 20px rgba(255, 200, 0, 0.8); }
+      100% { box-shadow: 0 0 0px rgba(255, 200, 0, 0.0); }
+    }
+
+    .fish-card.glow {
+      animation: glow 1s ease-in-out;
+    }
+
+    .number.pop {
+      animation: bounce 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="alice/alice_mutoto.png" alt="My Neighbor MUTOTO logo">
+  <h1>🎣 Fish Bingo Roulette 🎰</h1>
+  <button onclick="startReveal()">Start Rolling!</button>
+  <button onclick="renderInitial()">Reset</button>
+  <div class="fish-container" id="fish-container"></div>
+
+  <!-- Cute Roulette Sound -->
+  <audio id="sound" preload="auto">
+    <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const fishCards = [
+      { name: "Floral Flounder", image: "alice/fish_00.png", use: true },
+      { name: "Rusty Sunfish", image: "alice/fish_01.png", use: true },
+      { name: "Broad Barsch", image: "alice/fish_02.png", use: true },
+      { name: "Jellyblossom Fish", image: "alice/fish_03.png", use: false },
+      { name: "Codcape", image: "alice/fish_04.png", use: false },
+      { name: "Passage Perch", image: "alice/fish_05.png", use: false },
+      { name: "Meadow Mahi", image: "alice/fish_06.png", use: true },
+      { name: "Luna Tuna", image: "alice/fish_07.png", use: false },
+      { name: "Regal Bass", image: "alice/fish_08.png", use: true },
+      { name: "Salty Eel", image: "alice/fish_09.png", use: false },
+      { name: "Gloomy Guppy", image: "alice/fish_10.png", use: false },
+      { name: "Timber Trout", image: "alice/fish_11.png", use: false },
+      { name: "River Asp", image: "alice/fish_12.png", use: true },
+      { name: "Roundpuff Fish", image: "alice/fish_13.png", use: true },
+      { name: "Boots", image: "alice/fish_14.png", use: true },
+      { name: "Tire", image: "alice/fish_15.png", use: false }
+    ];
+
+    const container = document.getElementById("fish-container");
+    const audio = document.getElementById("sound");
+
+    function renderInitial() {
+      container.innerHTML = "";
+      const selected = fishCards.filter(card => card.use);
+      selected.forEach(cardData => {
+        const card = document.createElement("div");
+        card.className = "fish-card";
+        card.innerHTML = `
+          <img src="${cardData.image}" alt="fish icon">
+          <div>${cardData.name}</div>
+          <div class="number">?</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function startReveal() {
+    const cards = document.querySelectorAll(".fish-card");
+    const possibleNumbers = [...Array(21)].map((_, i) => i - 10); // -10 ~ 10
+    const shuffledNumbers = shuffle(possibleNumbers).slice(0, cards.length);
+
+    cards.forEach((card, i) => {
+      const delay = 600 * i;
+      setTimeout(() => {
+        card.classList.add("reveal", "glow");
+        const numberElem = card.querySelector(".number");
+        numberElem.textContent = shuffledNumbers[i];
+        numberElem.classList.add("pop");
+        setTimeout(() => numberElem.classList.remove("pop"), 400);
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Autoplay prevented"));
+      }, delay);  
+    });
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    renderInitial();
+  </script>
+</body>
+</html>

@@ -76,7 +76,27 @@
     button:hover {
       background-color: #005fa3;
     }
-  </style>
+      @keyframes bounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.25); }
+      60% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 0px rgba(255, 200, 0, 0.0); }
+      50% { box-shadow: 0 0 20px rgba(255, 200, 0, 0.8); }
+      100% { box-shadow: 0 0 0px rgba(255, 200, 0, 0.0); }
+    }
+
+    .fish-card.glow {
+      animation: glow 1s ease-in-out;
+    }
+
+    .number.pop {
+      animation: bounce 0.4s ease;
+    }
+</style>
 </head>
 <body>
   <img id="logo" src="alice/alice_mutoto.png" alt="My Neighbor MUTOTO logo">
@@ -131,13 +151,16 @@
 
     function startReveal() {
       const cards = document.querySelectorAll(".fish-card");
-      const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1));
+      const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1 + Math.floor(Math.random() * 2)));
 
       cards.forEach((card, i) => {
         const delay = 600 * i;
         setTimeout(() => {
-          card.classList.add("reveal");
-          card.querySelector(".number").textContent = numbers[i];
+          card.classList.add("reveal", "glow");
+          const numberElem = card.querySelector(".number");
+          numberElem.textContent = numbers[i];
+          numberElem.classList.add("pop");
+          setTimeout(() => numberElem.classList.remove("pop"), 400);
           audio.currentTime = 0;
           audio.play().catch(e => console.log("Autoplay prevented"));
         }, delay);

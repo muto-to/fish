@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fish Bingo Roulette</title>
+  <style>
+    body {
+      background: #f0f8ff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    #logo {
+      width: 300px;
+      margin-bottom: 1rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .fish-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .fish-card {
+      width: 160px;
+      height: 200px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.95rem;
+      opacity: 0;
+      transform: scale(0.8) rotateY(0deg);
+      transition: all 0.6s ease;
+    }
+    .fish-card.reveal {
+      opacity: 1;
+      transform: scale(1) rotateY(360deg);
+    }
+    .fish-card img {
+      width: 137px;
+      height: 137px;
+    }
+    .number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ff4081;
+      background: #fff0f5;
+      padding: 0.4rem 1.2rem;
+      border-radius: 20px;
+      margin-top: 0.4rem;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      font-family: 'Comic Sans MS', cursive;
+    }
+    button {
+      padding: 0.8rem 1.4rem;
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #0077cc;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="alice/alice_mutoto.png" alt="My Neighbor MUTOTO logo">
+  <h1>🎣 Fish Bingo Roulette 🎰</h1>
+  <button onclick="startReveal()">Start Rolling!</button>
+  <div class="fish-container" id="fish-container"></div>
+
+  <!-- Cute Roulette Sound -->
+  <audio id="sound" preload="auto">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+  Your browser does not support the audio element.
+</audio>
+
+  <script>
+    const fishNames = [
+      "Floral Flounder", "Rusty Sunfish", "Jellyblossom Fish", "Codcape",
+      "Broad Barsch", "Passage Perch", "Meadow Mahi", "Luna Tuna",
+      "Regal Bass", "Salty Eel", "Gloomy Guppy", "Timber Trout",
+      "River Asp", "Roundpuff Fish", "Boots", "Tire"
+    ];
+
+    const imagePaths = Array.from({length: 16}, (_, i) => `alice/fish_${i.toString().padStart(2, '0')}.png`);
+
+    const container = document.getElementById("fish-container");
+    const audio = document.getElementById("sound");
+
+    function renderInitial() {
+      container.innerHTML = "";
+      fishNames.forEach((name, i) => {
+        const card = document.createElement("div");
+        card.className = "fish-card";
+        card.innerHTML = `
+          <img src="${imagePaths[i]}" alt="fish icon">
+          <div>${name}</div>
+          <div class="number">?</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function startReveal() {
+      const cards = document.querySelectorAll(".fish-card");
+      const numbers = shuffle([...Array(cards.length)].map((_, i) => i + 1));
+
+      cards.forEach((card, i) => {
+        const delay = 600 * i;
+        setTimeout(() => {
+          card.classList.add("reveal");
+          card.querySelector(".number").textContent = numbers[i];
+          audio.currentTime = 0;
+          audio.play().catch(e => console.log("Autoplay prevented"));
+        }, delay);
+      });
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    renderInitial();
+  </script>
+</body>
+</html>
